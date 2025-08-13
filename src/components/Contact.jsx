@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import './Contact.css'; // Import the CSS file
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -37,107 +38,120 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-white">
+    <section id="contact" className="py-20">
       <div className="max-w-4xl mx-auto px-6">
-        <h2 className="text-3xl font-bold text-center mb-4 text-gray-900">
+        <h2 className="text-3xl font-bold text-center mb-4">
           Get In Touch
         </h2>
         
-        <p className="text-center text-gray-600 mb-12">
+        <p className="text-center mb-12">
           Have a question or want to work together? I'd love to hear from you!
         </p>
 
         {/* Contact Info */}
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
-          <div className="text-center">
-            <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+        <div className="contact-info-grid">
+          <div className="contact-info-item">
+            <div className="icon-container email">
               <Mail className="text-blue-600" size={24} />
             </div>
-            <h3 className="font-semibold mb-2">Email</h3>
-            <p className="text-gray-600">your.email@example.com</p>
+            <h3>Email</h3>
+            <p>nurmahi487@gmail.com.com</p>
           </div>
           
-          <div className="text-center">
-            <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Phone className="text-green-600" size={24} />
-            </div>
-            <h3 className="font-semibold mb-2">Phone</h3>
-            <p className="text-gray-600">(555) 123-4567</p>
-          </div>
-          
-          <div className="text-center">
-            <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="contact-info-item">
+            <div className="icon-container location">
               <MapPin className="text-purple-600" size={24} />
             </div>
-            <h3 className="font-semibold mb-2">Location</h3>
-            <p className="text-gray-600">Denton, TX</p>
+            <h3>Location</h3>
+            <p>Denton, TX</p>
           </div>
         </div>
 
         {/* Contact Form */}
-        <div className="max-w-2xl mx-auto">
-          {/* Form would go here but since forms aren't supported in artifacts */}
-          <div className="text-center p-8 bg-gray-50 rounded-lg">
-            <p className="text-gray-600 mb-4">Contact form coming soon...</p>
-            <p className="text-sm text-gray-500">
-              In the meantime, feel free to reach out via email or phone!
-            </p>
-          </div>
-          
-          {/* Alternative - show what the form would look like */}
-          <div className="mt-8 space-y-4 opacity-50 pointer-events-none">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Name
+        <div className="form-container">
+          <form onSubmit={handleSubmit} className="contact-form">
+            <div className="form-group">
+              <label htmlFor="name" className="form-label">
+                Name *
               </label>
               <input
+                id="name"
+                name="name"
                 type="text"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                value={formData.name}
+                onChange={handleInputChange}
+                className="form-input"
                 placeholder="Your Name"
+                required
               />
             </div>
             
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email
+            <div className="form-group">
+              <label htmlFor="email" className="form-label">
+                Email *
               </label>
               <input
+                id="email"
+                name="email"
                 type="email"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                value={formData.email}
+                onChange={handleInputChange}
+                className="form-input"
                 placeholder="your.email@example.com"
+                required
               />
             </div>
             
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Subject
+            <div className="form-group">
+              <label htmlFor="subject" className="form-label">
+                Subject *
               </label>
               <input
+                id="subject"
+                name="subject"
                 type="text"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                value={formData.subject}
+                onChange={handleInputChange}
+                className="form-input"
                 placeholder="What's this about?"
+                required
               />
             </div>
             
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Message
+            <div className="form-group">
+              <label htmlFor="message" className="form-label">
+                Message *
               </label>
               <textarea
+                id="message"
+                name="message"
                 rows="5"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                placeholder="Your message here..."
+                value={formData.message}
+                onChange={handleInputChange}
+                className="form-textarea"
+                placeholder="Tell me about your project or inquiry..."
+                required
               />
             </div>
             
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center gap-2"
+              disabled={isSubmitting}
+              className={`form-submit-btn ${isSubmitting ? 'submitting' : ''}`}
             >
-              <Send size={18} />
-              Send Message
+              {isSubmitting ? (
+                <>
+                  <div className="spinner"></div>
+                  Sending...
+                </>
+              ) : (
+                <>
+                  <Send size={18} />
+                  Send Message
+                </>
+              )}
             </button>
-          </div>
+          </form>
         </div>
       </div>
     </section>
