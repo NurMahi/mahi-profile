@@ -1,8 +1,8 @@
 /* Projects.css */
 .projects-section {
   padding: 5rem 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: linear-gradient(135deg, #bdc1d1 0%, #867949 100%);
+  color: rgb(206, 187, 187);
 }
 
 .section-title {
@@ -23,7 +23,7 @@
 }
 
 .project-card {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(202, 140, 140, 0.226);
   border-radius: 15px;
   overflow: hidden;
   backdrop-filter: blur(10px);
@@ -34,7 +34,7 @@
 
 .project-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 40px rgba(238, 158, 158, 0.2);
 }
 
 .project-image {

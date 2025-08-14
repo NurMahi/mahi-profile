@@ -7,7 +7,7 @@ const About = () => {
     'Python', 'HTML/CSS',
     'Linux', 'Excel',
     'Java', 'JavaScript',
-    'SQL', 'MongoDB'
+    'SQL', 'MongoDB' ,'React', 'Node.js', 'Express.js', 'Tailwind CSS', 'Git', 'GitHub', 'Firebase', 'TypeScript', 'FastAPI', 'TensorFlow'
   ];
 
   return (
@@ -45,7 +45,7 @@ const About = () => {
           <div className="expertise-intro">
             <p className="expertise-text">
               <span className="prev-role">Intern @ Great Dakotas LLC.</span>{" "}
-              <a href="/Resume.pdf" target="_blank" rel="noopener noreferrer" className="learn-more-link">Learn more.</a>
+              <a href="/Resume .pdf" target="_blank" rel="noopener noreferrer" className="learn-more-link">Learn more.</a>
             </p>
           </div>
 

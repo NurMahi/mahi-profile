@@ -1,28 +1,77 @@
 import React from 'react';
 
-const Header = () => {
+const Header = ({ currentTheme = 'light' }) => {
   const scrollToSection = (sectionId) => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const themes = {
+    light: { bgColor: '#f8f9fa', textColor: '#333', accent: '#007bff' },
+    dark: { bgColor: '#0a0a0a', textColor: '#fff', accent: '#00d4ff' },
+    green: { bgColor: '#0f1e0f', textColor: '#e8f5e8', accent: '#00ff88' },
+    purple: { bgColor: '#1a0f1e', textColor: '#f5e8f5', accent: '#b967db' }
+  };
+
+  const currentThemeData = themes[currentTheme] || themes.light;
+
   return (
-    <header style={headerStyle}>
+    <header style={{
+      ...headerStyle,
+      backgroundColor: `${currentThemeData.bgColor}95`,
+      borderBottom: 'none', // Remove the white line
+      boxShadow: `0 2px 10px ${currentThemeData.bgColor}30`
+    }}>
       <div className="container" style={containerStyle}>
-        <div style={logoStyle}>
+        <div style={{
+          ...logoStyle,
+          color: currentThemeData.accent
+        }}>
           <h2>Profile</h2>
         </div>
         
         <nav style={navStyle}>
-          <button onClick={() => scrollToSection('home')} style={navLinkStyle}>
+          <button 
+            onClick={() => scrollToSection('home')} 
+            style={{
+              ...navLinkStyle,
+              color: currentThemeData.textColor
+            }}
+            onMouseEnter={(e) => e.target.style.color = currentThemeData.accent}
+            onMouseLeave={(e) => e.target.style.color = currentThemeData.textColor}
+          >
             Home
           </button>
-          <button onClick={() => scrollToSection('about')} style={navLinkStyle}>
+          <button 
+            onClick={() => scrollToSection('about')} 
+            style={{
+              ...navLinkStyle,
+              color: currentThemeData.textColor
+            }}
+            onMouseEnter={(e) => e.target.style.color = currentThemeData.accent}
+            onMouseLeave={(e) => e.target.style.color = currentThemeData.textColor}
+          >
             About
           </button>
-          <button onClick={() => scrollToSection('projects')} style={navLinkStyle}>
+          <button 
+            onClick={() => scrollToSection('projects')} 
+            style={{
+              ...navLinkStyle,
+              color: currentThemeData.textColor
+            }}
+            onMouseEnter={(e) => e.target.style.color = currentThemeData.accent}
+            onMouseLeave={(e) => e.target.style.color = currentThemeData.textColor}
+          >
             Projects
           </button>
-          <button onClick={() => scrollToSection('contact')} style={navLinkStyle}>
+          <button 
+            onClick={() => scrollToSection('contact')} 
+            style={{
+              ...navLinkStyle,
+              color: currentThemeData.textColor
+            }}
+            onMouseEnter={(e) => e.target.style.color = currentThemeData.accent}
+            onMouseLeave={(e) => e.target.style.color = currentThemeData.textColor}
+          >
             Contact
           </button>
         </nav>
@@ -34,24 +83,27 @@ const Header = () => {
 const headerStyle = {
   position: 'fixed',
   top: 0,
-  width: '100%',
-  backgroundColor: 'rgba(255, 255, 255, 0.95)',
-  backdropFilter: 'blur(10px)',
+  width: '100%', // Changed from 53.7% to full width
+  backdropFilter: 'blur(20px)',
   zIndex: 1000,
   padding: '1rem 0',
-  borderBottom: '1px solid #eee'
+  left: 0,
+  right: 0
 };
 
 const containerStyle = {
   display: 'flex',
   justifyContent: 'space-between',
-  alignItems: 'center'
+  alignItems: 'center',
+  maxWidth: '1200px',
+  margin: '0 auto',
+  padding: '0 2rem'
 };
 
 const logoStyle = {
   fontSize: '1.5rem',
   fontWeight: 'bold',
-  color: '#333'
+  letterSpacing: '1px'
 };
 
 const navStyle = {
@@ -62,12 +114,13 @@ const navStyle = {
 const navLinkStyle = {
   background: 'none',
   border: 'none',
-  color: '#333',
   fontWeight: '500',
   cursor: 'pointer',
   fontSize: '1rem',
-  padding: '0.5rem',
-  transition: 'color 0.3s ease'
+  padding: '0.5rem 1rem',
+  borderRadius: '8px',
+  transition: 'all 0.3s ease',
+  position: 'relative'
 };
 
 export default Header;

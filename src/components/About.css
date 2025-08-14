@@ -1,7 +1,9 @@
+/* About.css - Updated with reduced spacing */
+
 .about-section {
-  padding: 100px 0;
-  background: #fafafa;
-  min-height: 100vh;
+  padding: 19px 0; /* Reduced from 100px */
+  background: #fdfafa;
+  min-height: auto; /* Changed from 100vh */
 }
 
 .container {
@@ -12,14 +14,14 @@
 
 /* About Content */
 .about-content {
-  margin-bottom: 80px;
+  margin-bottom: 40px; /* Reduced from 80px */
 }
 
 .main-heading {
   font-size: 2.75rem;
   font-weight: 600;
   color: #1a1a1a;
-  margin-bottom: 40px;
+  margin-bottom: 24px; /* Reduced from 40px */
   letter-spacing: -0.02em;
   line-height: 1.2;
 }
@@ -28,7 +30,7 @@
   background: white;
   border-radius: 12px;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.04);
-  padding: 48px;
+  padding: 32px; /* Reduced from 48px */
   border: 1px solid #f0f0f0;
 }
 
@@ -36,7 +38,7 @@
   font-size: 1.125rem;
   color: #4a4a4a;
   line-height: 1.8;
-  margin-bottom: 28px;
+  margin-bottom: 20px; /* Reduced from 28px */
   font-weight: 400;
 }
 
@@ -58,7 +60,7 @@
 .divider {
   display: flex;
   align-items: center;
-  margin: 80px 0;
+  margin: 40px 0; /* Reduced from 80px */
 }
 
 .divider-line {
@@ -77,19 +79,19 @@
 
 /* Expertise Section */
 .expertise-section {
-  margin-bottom: 60px;
+  margin-bottom: 40px; /* Reduced from 60px */
 }
 
 .section-heading {
   font-size: 2.25rem;
   font-weight: 600;
   color: #1a1a1a;
-  margin-bottom: 32px;
+  margin-bottom: 24px; /* Reduced from 32px */
   letter-spacing: -0.02em;
 }
 
 .expertise-intro {
-  margin-bottom: 48px;
+  margin-bottom: 32px; /* Reduced from 48px */
 }
 
 .expertise-text {
@@ -121,7 +123,7 @@
   background: white;
   border-radius: 12px;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.04);
-  padding: 48px;
+  padding: 32px; /* Reduced from 48px */
   border: 1px solid #f0f0f0;
 }
 
@@ -176,7 +178,7 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .about-section {
-    padding: 60px 0;
+    padding: 30px 0; /* Reduced from 60px */
   }
   
   .container {
@@ -185,24 +187,31 @@
   
   .main-heading {
     font-size: 2.25rem;
+    margin-bottom: 20px; /* Reduced spacing */
   }
   
   .section-heading {
     font-size: 1.875rem;
+    margin-bottom: 20px; /* Reduced spacing */
   }
   
   .content-card,
   .skills-container {
-    padding: 32px;
+    padding: 24px; /* Reduced from 32px */
   }
   
   .about-text,
   .expertise-text {
     font-size: 1rem;
+    margin-bottom: 16px; /* Reduced spacing */
   }
   
   .about-content,
   .divider {
-    margin-bottom: 60px;
+    margin-bottom: 30px; /* Reduced from 60px */
+  }
+  
+  .expertise-intro {
+    margin-bottom: 24px; /* Reduced spacing */
   }
 }
