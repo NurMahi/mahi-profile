@@ -290,12 +290,12 @@
 
 /* Form validation styles */
 .form-input:invalid:not(:focus):not(:placeholder-shown) {
-  border-color: #ef4444;
+  border-color: #dbcaca;
   box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 }
 
 .form-textarea:invalid:not(:focus):not(:placeholder-shown) {
-  border-color: #ef4444;
+  border-color: #e0d5d5;
   box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 }
 

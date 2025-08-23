@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 
-const Contact = () => {
+const Contact = ({ currentTheme }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -36,18 +36,72 @@ const Contact = () => {
     }, 1000);
   };
 
+  // Theme configurations
+  const themes = {
+    light: { 
+      bgColor: '#f8f9fa', 
+      textColor: '#333', 
+      accent: '#007bff', 
+      secondary: '#e9ecef',
+      cardBg: '#ffffff',
+      inputBg: '#ffffff',
+      borderColor: '#e5e7eb',
+      shadowColor: 'rgba(0, 0, 0, 0.1)',
+      subtitleColor: '#64748b'
+    },
+    dark: { 
+      bgColor: '#1a1a2e', 
+      textColor: '#ffffff', 
+      accent: '#4fc3f7', 
+      secondary: '#16213e',
+      cardBg: 'rgba(255, 255, 255, 0.8)',
+      inputBg: 'rgba(255, 255, 255, 0.9)',
+      borderColor: '#e5e7eb',
+      shadowColor: 'rgba(0, 0, 0, 0.1)',
+      subtitleColor: '#64748b'
+    },
+    green: { 
+      bgColor: '#0f1419', 
+      textColor: '#ffffff', 
+      accent: '#4caf50', 
+      secondary: '#1b2f1b',
+      cardBg: 'rgba(255, 255, 255, 0.8)',
+      inputBg: 'rgba(255, 255, 255, 0.9)',
+      borderColor: '#e5e7eb',
+      shadowColor: 'rgba(0, 0, 0, 0.1)',
+      subtitleColor: '#64748b'
+    },
+    purple: { 
+      bgColor: '#1a0b2e', 
+      textColor: '#ffffff', 
+      accent: '#9c27b0', 
+      secondary: '#2d1b4e',
+      cardBg: 'rgba(255, 255, 255, 0.8)',
+      inputBg: 'rgba(255, 255, 255, 0.9)',
+      borderColor: '#e5e7eb',
+      shadowColor: 'rgba(0, 0, 0, 0.1)',
+      subtitleColor: '#64748b'
+    }
+  };
+
+  const theme = themes[currentTheme] || themes.dark;
+
   return (
     <>
       <style>{`
-        /* Contact.css - Modern styling for Contact component */
+        /* Contact.css - Modern styling for Contact component with theme support */
         #contact {
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
           line-height: 1.6;
-          color: #2d3748;
-          background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+          color: ${theme.textColor};
+          background: ${currentTheme === 'light' ? 
+            'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)' :
+            `linear-gradient(135deg, ${theme.bgColor} 0%, ${theme.secondary} 100%)`
+          };
           position: relative;
           overflow: hidden;
           padding: 5rem 0;
+          transition: all 0.3s ease;
         }
 
         #contact::before {
@@ -57,9 +111,12 @@ const Contact = () => {
           left: 0;
           right: 0;
           bottom: 0;
-          background: 
-            radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
-            radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
+          background: ${currentTheme === 'light' ? 
+            `radial-gradient(circle at 20% 20%, ${theme.accent}08 0%, transparent 50%),
+             radial-gradient(circle at 80% 80%, ${theme.accent}05 0%, transparent 50%)` :
+            `radial-gradient(circle at 20% 20%, ${theme.accent}15 0%, transparent 50%),
+             radial-gradient(circle at 80% 80%, ${theme.accent}10 0%, transparent 50%)`
+          };
           pointer-events: none;
         }
 
@@ -74,7 +131,10 @@ const Contact = () => {
         #contact h2 {
           font-size: 2.5rem;
           font-weight: 700;
-          background: linear-gradient(135deg, #1e293b, #475569);
+          background: ${currentTheme === 'light' ? 
+            `linear-gradient(135deg, ${theme.textColor}, ${theme.accent})` :
+            'linear-gradient(135deg, #1e293b, #475569)'
+          };
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -85,7 +145,7 @@ const Contact = () => {
 
         #contact p {
           font-size: 1.125rem;
-          color: #64748b;
+          color: ${theme.subtitleColor};
           max-width: 600px;
           margin: 0 auto 3rem;
           text-align: center;
@@ -100,9 +160,9 @@ const Contact = () => {
         }
 
         .contact-info-item {
-          background: rgba(255, 255, 255, 0.8);
+          background: ${theme.cardBg};
           backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          border: 1px solid ${currentTheme === 'light' ? theme.borderColor : 'rgba(255, 255, 255, 0.2)'};
           border-radius: 1rem;
           padding: 2rem 1.5rem;
           text-align: center;
@@ -110,6 +170,10 @@ const Contact = () => {
           position: relative;
           overflow: hidden;
           animation: fadeInUp 0.6s ease-out forwards;
+          box-shadow: ${currentTheme === 'light' ? 
+            '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' :
+            '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+          };
         }
 
         .contact-info-item::before {
@@ -119,7 +183,7 @@ const Contact = () => {
           left: 0;
           right: 0;
           bottom: 0;
-          background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.1));
+          background: linear-gradient(135deg, transparent, ${currentTheme === 'light' ? 'rgba(0, 0, 0, 0.02)' : 'rgba(255, 255, 255, 0.1)'});
           opacity: 0;
           transition: opacity 0.3s ease;
         }
@@ -127,9 +191,9 @@ const Contact = () => {
         .contact-info-item:hover {
           transform: translateY(-5px);
           box-shadow: 
-            0 20px 25px -5px rgba(0, 0, 0, 0.1),
+            0 20px 25px -5px ${theme.shadowColor},
             0 10px 10px -5px rgba(0, 0, 0, 0.04);
-          border-color: rgba(255, 255, 255, 0.4);
+          border-color: ${currentTheme === 'light' ? theme.borderColor : 'rgba(255, 255, 255, 0.4)'};
         }
 
         .contact-info-item:hover::before {
@@ -162,19 +226,25 @@ const Contact = () => {
         }
 
         .icon-container.email {
-          background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+          background: ${currentTheme === 'light' ? 
+            '#dbeafe' : 
+            'linear-gradient(135deg, #dbeafe, #bfdbfe)'
+          };
         }
 
         .icon-container.email::before {
-          background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+          background: linear-gradient(135deg, ${theme.accent}, ${theme.accent}CC);
         }
 
         .icon-container.location {
-          background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
+          background: ${currentTheme === 'light' ? 
+            '#f3e8ff' : 
+            'linear-gradient(135deg, #f3e8ff, #e9d5ff)'
+          };
         }
 
         .icon-container.location::before {
-          background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+          background: linear-gradient(135deg, ${theme.accent}, ${theme.accent}CC);
         }
 
         .contact-info-item:hover .icon-container::before {
@@ -190,17 +260,18 @@ const Contact = () => {
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           z-index: 1;
           position: relative;
+          color: ${theme.accent};
         }
 
         .contact-info-item h3 {
           font-size: 1.25rem;
           font-weight: 600;
-          color: #1e293b;
+          color: ${currentTheme === 'light' ? '#1e293b' : '#1e293b'};
           margin-bottom: 0.5rem;
         }
 
         .contact-info-item p {
-          color: #64748b;
+          color: ${theme.subtitleColor};
           font-size: 1rem;
           margin: 0;
           font-weight: 500;
@@ -212,13 +283,13 @@ const Contact = () => {
         }
 
         .contact-form {
-          background: rgba(255, 255, 255, 0.8);
+          background: ${theme.cardBg};
           backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          border: 1px solid ${currentTheme === 'light' ? theme.borderColor : 'rgba(255, 255, 255, 0.2)'};
           border-radius: 1rem;
           padding: 2.5rem;
           box-shadow: 
-            0 10px 15px -3px rgba(0, 0, 0, 0.1),
+            0 10px 15px -3px ${theme.shadowColor},
             0 4px 6px -2px rgba(0, 0, 0, 0.05);
           width: 100%;
           max-width: 600px;
@@ -232,7 +303,7 @@ const Contact = () => {
           display: block;
           font-size: 0.875rem;
           font-weight: 600;
-          color: #374151;
+          color: ${currentTheme === 'light' ? '#374151' : '#374151'};
           margin-bottom: 0.5rem;
           letter-spacing: 0.025em;
         }
@@ -241,12 +312,12 @@ const Contact = () => {
         .form-textarea {
           width: 100%;
           padding: 0.875rem 1rem;
-          border: 2px solid #e5e7eb;
+          border: 2px solid ${theme.borderColor};
           border-radius: 0.75rem;
           font-size: 1rem;
           transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-          background: rgba(255, 255, 255, 0.9);
-          color: #374151;
+          background: ${theme.inputBg};
+          color: ${currentTheme === 'light' ? '#374151' : '#374151'};
           font-family: inherit;
           box-sizing: border-box;
         }
@@ -254,9 +325,9 @@ const Contact = () => {
         .form-input:focus,
         .form-textarea:focus {
           outline: none;
-          border-color: #3b82f6;
+          border-color: ${theme.accent};
           box-shadow: 
-            0 0 0 3px rgba(59, 130, 246, 0.1),
+            0 0 0 3px ${theme.accent}20,
             0 1px 2px 0 rgba(0, 0, 0, 0.05);
           background: rgba(255, 255, 255, 1);
         }
@@ -274,7 +345,7 @@ const Contact = () => {
 
         .form-submit-btn {
           width: 100%;
-          background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+          background: linear-gradient(135deg, ${theme.accent}, ${theme.accent}DD);
           color: white;
           padding: 0.875rem 1.5rem;
           border: none;
@@ -287,13 +358,13 @@ const Contact = () => {
           align-items: center;
           justify-content: center;
           gap: 0.5rem;
-          box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.25);
+          box-shadow: 0 4px 6px -1px ${theme.accent}40;
         }
 
         .form-submit-btn:hover:not(:disabled) {
-          background: linear-gradient(135deg, #1d4ed8, #1e40af);
+          background: linear-gradient(135deg, ${theme.accent}DD, ${theme.accent}BB);
           transform: translateY(-2px);
-          box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4);
+          box-shadow: 0 10px 15px -3px ${theme.accent}60;
         }
 
         .form-submit-btn:active:not(:disabled) {
