@@ -13,16 +13,22 @@ const Hero = ({ onThemeChange, currentTheme }) => {
     { name: 'purple', color: '#6a4c93', bgColor: '#1a0b2e', textColor: '#ffffff', accent: '#9c27b0', secondary: '#2d1b4e' }
   ];
 
-  const robotMessages = [
+const robotMessages = [
     "Hi there! 👋 I'm your portfolio assistant!",
-    "Nice theme choice! Looking good!",
-    "Want to see Mahi's projects? Click Projects above!",
-    "I love helping visitors explore portfolios!",
-    "Did you know? This site has multiple themes!",
-    "Feel free to contact Mahi if you like what you see!"
+    "Nice theme choice! Looking good! 🎨",
+    "Want to see Mahi's projects? Click Projects above! 📂",
+    "I love helping visitors explore portfolios! 💼",
+    "Did you know? This site has multiple themes! 🌈",
+    "Feel free to contact Mahi if you like what you see! 📧",
+    "I'm doing a little dance! 💃 Click me again!",
+    "Wheee! I can jump too! 🚀",
+    "✨ Magic sparkles! ✨ I love interactive fun!",
+    "My eyes change expressions! Watch this! 👀",
+    "I never get tired of helping visitors! 🤖",
+    "Try hovering over me for surprises! 🎉"
   ];
 
-  // Use prop or fallback to local state
+// Use prop or fallback to local state
   const activeTheme = currentTheme || localTheme;
   const currentThemeData = themes.find(t => t.name === activeTheme) || themes[1]; // Default to dark
 
@@ -53,6 +59,451 @@ const Hero = ({ onThemeChange, currentTheme }) => {
     // Show robot after 2 seconds
     setTimeout(() => setShowRobot(true), 2000);
   }, [activeTheme, currentThemeData]);
+
+  // Cute Robot Component
+  const CuteRobot = ({ onClick, theme }) => {
+    const [isWaving, setIsWaving] = useState(true);
+    const [eyeExpression, setEyeExpression] = useState('happy');
+    const [isDancing, setIsDancing] = useState(false);
+    const [isJumping, setIsJumping] = useState(false);
+    const [sparkles, setSparkles] = useState([]);
+    
+    const handleRobotInteraction = () => {
+      // Cycle through expressions on click
+      const expressions = ['happy', 'excited', 'sleepy', 'surprised', 'love'];
+      const currentIndex = expressions.indexOf(eyeExpression);
+      const nextExpression = expressions[(currentIndex + 1) % expressions.length];
+      setEyeExpression(nextExpression);
+      
+      // Random fun interactions
+      const interactions = ['wave', 'dance', 'jump', 'sparkle'];
+      const randomInteraction = interactions[Math.floor(Math.random() * interactions.length)];
+      
+      switch (randomInteraction) {
+        case 'wave':
+          setIsWaving(!isWaving);
+          break;
+        case 'dance':
+          setIsDancing(true);
+          setTimeout(() => setIsDancing(false), 3000);
+          break;
+        case 'jump':
+          setIsJumping(true);
+          setTimeout(() => setIsJumping(false), 1000);
+          break;
+        case 'sparkle':
+          // Create sparkle effect
+          const newSparkles = Array.from({ length: 8 }, (_, i) => ({
+            id: Date.now() + i,
+            x: Math.random() * 100 - 50,
+            y: Math.random() * 100 - 50,
+            delay: i * 0.1
+          }));
+          setSparkles(newSparkles);
+          setTimeout(() => setSparkles([]), 2000);
+          break;
+      }
+      
+      // Call the parent onClick
+      onClick();
+      
+      // Reset to happy after 3 seconds
+      setTimeout(() => {
+        setEyeExpression('happy');
+        setIsWaving(true);
+      }, 3000);
+    };
+
+    const getEyeStyle = (expression) => {
+      const baseStyle = {
+        width: '8px',
+        height: '8px',
+        backgroundColor: theme.accent,
+        borderRadius: '50%',
+        boxShadow: `0 0 10px ${theme.accent}`,
+        transition: 'all 0.3s ease',
+        animation: 'eyeGlow 2s ease-in-out infinite'
+      };
+
+      switch (expression) {
+        case 'excited':
+          return { ...baseStyle, transform: 'scaleY(1.3)', backgroundColor: '#ff6b6b' };
+        case 'sleepy':
+          return { ...baseStyle, height: '3px', transform: 'translateY(2px)' };
+        case 'surprised':
+          return { ...baseStyle, width: '12px', height: '12px', transform: 'scale(1.2)' };
+        case 'love':
+          return { ...baseStyle, backgroundColor: '#ff1493', boxShadow: '0 0 15px #ff1493', animation: 'heartPulse 0.5s ease-in-out infinite' };
+        default:
+          return baseStyle;
+      }
+    };
+
+    return (
+      <div 
+        onClick={handleRobotInteraction}
+        style={{
+          width: '90px',
+          height: '120px',
+          cursor: 'pointer',
+          position: 'relative',
+          transform: isJumping ? 'scale(1.1) translateY(-15px)' : 'scale(1)',
+          transition: 'all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+          animation: `robotFloat 3s ease-in-out infinite ${isDancing ? ', robotDance 0.5s ease-in-out infinite' : ''}`,
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = isJumping ? 'scale(1.25) translateY(-15px) rotate(2deg)' : 'scale(1.15) rotate(2deg)';
+          setEyeExpression('excited');
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = isJumping ? 'scale(1.1) translateY(-15px)' : 'scale(1)';
+          setEyeExpression('happy');
+        }}
+      >
+        {/* Sparkle Effects */}
+        {sparkles.map((sparkle) => (
+          <div
+            key={sparkle.id}
+            style={{
+              position: 'absolute',
+              left: `50%`,
+              top: `50%`,
+              transform: `translate(${sparkle.x}px, ${sparkle.y}px)`,
+              width: '6px',
+              height: '6px',
+              backgroundColor: theme.accent,
+              borderRadius: '50%',
+              animation: `sparkleEffect 2s ease-out forwards`,
+              animationDelay: `${sparkle.delay}s`,
+              pointerEvents: 'none',
+              zIndex: 20
+            }}
+          />
+        ))}
+
+        {/* Robot Antennas with glowing tips */}
+        <div style={{
+          position: 'absolute',
+          top: '-15px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          display: 'flex',
+          gap: '20px',
+          zIndex: 10
+        }}>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center'
+          }}>
+            <div style={{
+              width: '6px',
+              height: '6px',
+              backgroundColor: theme.accent,
+              borderRadius: '50%',
+              boxShadow: `0 0 8px ${theme.accent}`,
+              animation: 'antennaGlow 1.5s ease-in-out infinite alternate'
+            }} />
+            <div style={{
+              width: '2px',
+              height: '15px',
+              backgroundColor: '#e0e0e0',
+              borderRadius: '1px'
+            }} />
+          </div>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center'
+          }}>
+            <div style={{
+              width: '6px',
+              height: '6px',
+              backgroundColor: theme.accent,
+              borderRadius: '50%',
+              boxShadow: `0 0 8px ${theme.accent}`,
+              animation: 'antennaGlow 1.5s ease-in-out infinite alternate 0.3s'
+            }} />
+            <div style={{
+              width: '2px',
+              height: '15px',
+              backgroundColor: '#e0e0e0',
+              borderRadius: '1px'
+            }} />
+          </div>
+        </div>
+
+        {/* Robot Head/Helmet */}
+        <div style={{
+          width: '60px',
+          height: '50px',
+          backgroundColor: '#f8f9fa',
+          borderRadius: '30px 30px 25px 25px',
+          margin: '0 auto',
+          position: 'relative',
+          border: '3px solid #e9ecef',
+          boxShadow: '0 6px 20px rgba(0,0,0,0.15)',
+          background: 'linear-gradient(145deg, #ffffff, #f0f0f0)'
+        }}>
+          {/* Helmet Visor/Screen */}
+          <div style={{
+            width: '48px',
+            height: '32px',
+            backgroundColor: '#1a1a2e',
+            borderRadius: '20px',
+            position: 'absolute',
+            top: '6px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-around',
+            border: '2px solid #333',
+            overflow: 'hidden'
+          }}>
+            {/* Robot Eyes - Now properly positioned */}
+            <div style={getEyeStyle(eyeExpression)} />
+            <div style={getEyeStyle(eyeExpression)} />
+          </div>
+
+          {/* Smile - Now outside the visor */}
+          <div style={{
+            position: 'absolute',
+            bottom: '6px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: '25px',
+            height: '12px',
+            border: `3px solid ${theme.accent}`,
+            borderTop: 'none',
+            borderRadius: '0 0 25px 25px',
+            opacity: eyeExpression === 'sleepy' ? 0.3 : 1,
+            transition: 'all 0.3s ease'
+          }} />
+
+          {/* Cheek lights */}
+          <div style={{
+            position: 'absolute',
+            top: '25px',
+            left: '8px',
+            width: '4px',
+            height: '4px',
+            backgroundColor: eyeExpression === 'excited' ? '#ff6b6b' : theme.accent,
+            borderRadius: '50%',
+            boxShadow: `0 0 8px ${eyeExpression === 'excited' ? '#ff6b6b' : theme.accent}`,
+            opacity: 0.7,
+            animation: 'cheekGlow 2s ease-in-out infinite alternate'
+          }} />
+          <div style={{
+            position: 'absolute',
+            top: '25px',
+            right: '8px',
+            width: '4px',
+            height: '4px',
+            backgroundColor: eyeExpression === 'excited' ? '#ff6b6b' : theme.accent,
+            borderRadius: '50%',
+            boxShadow: `0 0 8px ${eyeExpression === 'excited' ? '#ff6b6b' : theme.accent}`,
+            opacity: 0.7,
+            animation: 'cheekGlow 2s ease-in-out infinite alternate 0.5s'
+          }} />
+        </div>
+
+        {/* Robot Neck - Connects head to body */}
+        <div style={{
+          width: '25px',
+          height: '8px',
+          backgroundColor: '#f0f0f0',
+          borderRadius: '4px',
+          margin: '0 auto',
+          border: '2px solid #e0e0e0'
+        }} />
+
+        {/* Robot Body */}
+        <div style={{
+          width: '55px',
+          height: '40px',
+          backgroundColor: '#f8f9fa',
+          borderRadius: '12px',
+          margin: '0 auto',
+          border: '3px solid #e9ecef',
+          position: 'relative',
+          boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+          background: 'linear-gradient(145deg, #ffffff, #f0f0f0)'
+        }}>
+          {/* Body Panel Lines */}
+          <div style={{
+            width: '35px',
+            height: '2px',
+            backgroundColor: '#d6d8db',
+            position: 'absolute',
+            top: '12px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            borderRadius: '1px'
+          }} />
+          <div style={{
+            width: '25px',
+            height: '2px',
+            backgroundColor: '#d6d8db',
+            position: 'absolute',
+            top: '22px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            borderRadius: '1px'
+          }} />
+          
+          {/* Chest Light */}
+          <div style={{
+            width: '8px',
+            height: '8px',
+            backgroundColor: theme.accent,
+            borderRadius: '50%',
+            position: 'absolute',
+            top: '6px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            boxShadow: `0 0 12px ${theme.accent}`,
+            animation: 'heartbeat 2s ease-in-out infinite'
+          }} />
+
+          {/* Side buttons */}
+          <div style={{
+            position: 'absolute',
+            right: '8px',
+            top: '15px',
+            width: '4px',
+            height: '4px',
+            backgroundColor: '#28a745',
+            borderRadius: '50%',
+            boxShadow: '0 0 4px #28a745'
+          }} />
+          <div style={{
+            position: 'absolute',
+            left: '8px',
+            top: '15px',
+            width: '4px',
+            height: '4px',
+            backgroundColor: '#ffc107',
+            borderRadius: '50%',
+            boxShadow: '0 0 4px #ffc107'
+          }} />
+        </div>
+
+        {/* Robot Arms - Better connected to body */}
+        <div style={{
+          position: 'absolute',
+          top: '55px', // Moved up to connect better with body
+          left: '-12px', // Moved closer to body
+          width: '15px',
+          height: '30px', // Made longer
+          backgroundColor: '#f8f9fa',
+          borderRadius: '8px',
+          border: '2px solid #e0e0e0',
+          background: 'linear-gradient(145deg, #ffffff, #f0f0f0)',
+          transformOrigin: 'top center',
+          animation: isWaving ? 'none' : 'armSwing 3s ease-in-out infinite'
+        }}>
+          {/* Left Hand - Better positioned */}
+          <div style={{
+            position: 'absolute',
+            bottom: '-6px',
+            left: '1px',
+            width: '13px',
+            height: '10px',
+            backgroundColor: '#f8f9fa',
+            borderRadius: '8px',
+            border: '2px solid #e0e0e0',
+            background: 'linear-gradient(145deg, #ffffff, #f0f0f0)'
+          }} />
+        </div>
+
+        <div style={{
+          position: 'absolute',
+          top: '55px', // Moved up to connect better with body
+          right: '-12px', // Moved closer to body
+          width: '15px',
+          height: '30px', // Made longer
+          backgroundColor: '#f8f9fa',
+          borderRadius: '8px',
+          border: '2px solid #e0e0e0',
+          background: 'linear-gradient(145deg, #ffffff, #f0f0f0)',
+          transform: isWaving ? 'rotate(-20deg)' : 'rotate(0deg)',
+          transformOrigin: 'top center',
+          transition: 'transform 0.5s ease',
+          animation: isWaving ? 'wave 1.2s ease-in-out infinite' : 'armSwing 3s ease-in-out infinite 0.5s'
+        }}>
+          {/* Right Waving Hand - Better positioned */}
+          <div style={{
+            position: 'absolute',
+            bottom: '-6px',
+            right: '1px',
+            width: '13px',
+            height: '10px',
+            backgroundColor: '#f8f9fa',
+            borderRadius: '8px',
+            border: '2px solid #e0e0e0',
+            background: 'linear-gradient(145deg, #ffffff, #f0f0f0)',
+            animation: isWaving ? 'handWave 0.6s ease-in-out infinite alternate' : 'none'
+          }} />
+        </div>
+
+        {/* Robot Legs - Better connected to body */}
+        <div style={{
+          position: 'absolute',
+          bottom: '-25px', // Moved up to connect better
+          left: '50%',
+          transform: 'translateX(-50%)',
+          display: 'flex',
+          gap: '8px' // Reduced gap
+        }}>
+          <div style={{
+            width: '14px', // Made slightly wider
+            height: '22px', // Made longer
+            backgroundColor: '#f8f9fa',
+            borderRadius: '7px',
+            border: '2px solid #e0e0e0',
+            background: 'linear-gradient(145deg, #ffffff, #f0f0f0)',
+            position: 'relative'
+          }}>
+            {/* Left Foot - Better connected */}
+            <div style={{
+              position: 'absolute',
+              bottom: '-8px',
+              left: '-3px',
+              width: '20px',
+              height: '10px',
+              backgroundColor: '#f8f9fa',
+              borderRadius: '10px',
+              border: '2px solid #e0e0e0',
+              background: 'linear-gradient(145deg, #ffffff, #f0f0f0)'
+            }} />
+          </div>
+          <div style={{
+            width: '14px', // Made slightly wider
+            height: '22px', // Made longer
+            backgroundColor: '#f8f9fa',
+            borderRadius: '7px',
+            border: '2px solid #e0e0e0',
+            background: 'linear-gradient(145deg, #ffffff, #f0f0f0)',
+            position: 'relative'
+          }}>
+            {/* Right Foot - Better connected */}
+            <div style={{
+              position: 'absolute',
+              bottom: '-8px',
+              right: '-3px',
+              width: '20px',
+              height: '10px',
+              backgroundColor: '#f8f9fa',
+              borderRadius: '10px',
+              border: '2px solid #e0e0e0',
+              background: 'linear-gradient(145deg, #ffffff, #f0f0f0)'
+            }} />
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div id="home" style={{
@@ -171,7 +622,7 @@ const Hero = ({ onThemeChange, currentTheme }) => {
             fontSize: '2rem',
             border: `2px solid ${currentThemeData.accent}60`
           }} onClick={handleRobotClick}>
-            🤖
+            
           </div>
           <div style={{
             maxWidth: '250px',

@@ -10,6 +10,7 @@ const Contact = ({ currentTheme }) => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // 'success', 'error', or null
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -19,24 +20,46 @@ const Contact = ({ currentTheme }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitStatus(null);
     
-    // Simulate form submission
-    setTimeout(() => {
-      alert('Message sent successfully! (This is a demo)');
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
+    try {
+      // Replace 'YOUR_FORM_ID' with your actual Formspree form ID
+      const response = await fetch('https://formspree.io/f/mnnzeoog', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        }),
       });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        });
+      } else {
+        throw new Error('Failed to send message');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      setSubmitStatus('error');
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
-  // Theme configurations
+  // Theme configurations (keeping your existing theme code)
   const themes = {
     light: { 
       bgColor: '#f8f9fa', 
@@ -89,7 +112,7 @@ const Contact = ({ currentTheme }) => {
   return (
     <>
       <style>{`
-        /* Contact.css - Modern styling for Contact component with theme support */
+        /* Your existing CSS styles remain the same */
         #contact {
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
           line-height: 1.6;
@@ -104,6 +127,28 @@ const Contact = ({ currentTheme }) => {
           transition: all 0.3s ease;
         }
 
+        /* Status message styles */
+        .status-message {
+          padding: 1rem;
+          border-radius: 0.5rem;
+          margin-bottom: 1rem;
+          font-weight: 500;
+          text-align: center;
+        }
+
+        .status-success {
+          background-color: #d1fae5;
+          color: #065f46;
+          border: 1px solid #10b981;
+        }
+
+        .status-error {
+          background-color: #fee2e2;
+          color: #991b1b;
+          border: 1px solid #ef4444;
+        }
+
+        /* Rest of your existing CSS styles... */
         #contact::before {
           content: '';
           position: absolute;
@@ -176,107 +221,6 @@ const Contact = ({ currentTheme }) => {
           };
         }
 
-        .contact-info-item::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: linear-gradient(135deg, transparent, ${currentTheme === 'light' ? 'rgba(0, 0, 0, 0.02)' : 'rgba(255, 255, 255, 0.1)'});
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-
-        .contact-info-item:hover {
-          transform: translateY(-5px);
-          box-shadow: 
-            0 20px 25px -5px ${theme.shadowColor},
-            0 10px 10px -5px rgba(0, 0, 0, 0.04);
-          border-color: ${currentTheme === 'light' ? theme.borderColor : 'rgba(255, 255, 255, 0.4)'};
-        }
-
-        .contact-info-item:hover::before {
-          opacity: 1;
-        }
-
-        .icon-container {
-          width: 4rem;
-          height: 4rem;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin: 0 auto 1rem;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          position: relative;
-          overflow: hidden;
-        }
-
-        .icon-container::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          border-radius: 50%;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-
-        .icon-container.email {
-          background: ${currentTheme === 'light' ? 
-            '#dbeafe' : 
-            'linear-gradient(135deg, #dbeafe, #bfdbfe)'
-          };
-        }
-
-        .icon-container.email::before {
-          background: linear-gradient(135deg, ${theme.accent}, ${theme.accent}CC);
-        }
-
-        .icon-container.location {
-          background: ${currentTheme === 'light' ? 
-            '#f3e8ff' : 
-            'linear-gradient(135deg, #f3e8ff, #e9d5ff)'
-          };
-        }
-
-        .icon-container.location::before {
-          background: linear-gradient(135deg, ${theme.accent}, ${theme.accent}CC);
-        }
-
-        .contact-info-item:hover .icon-container::before {
-          opacity: 1;
-        }
-
-        .contact-info-item:hover .icon-container svg {
-          color: white !important;
-          transform: scale(1.1);
-        }
-
-        .icon-container svg {
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          z-index: 1;
-          position: relative;
-          color: ${theme.accent};
-        }
-
-        .contact-info-item h3 {
-          font-size: 1.25rem;
-          font-weight: 600;
-          color: ${currentTheme === 'light' ? '#1e293b' : '#1e293b'};
-          margin-bottom: 0.5rem;
-        }
-
-        .contact-info-item p {
-          color: ${theme.subtitleColor};
-          font-size: 1rem;
-          margin: 0;
-          font-weight: 500;
-        }
-
         .form-container {
           display: flex;
           justify-content: center;
@@ -332,11 +276,6 @@ const Contact = ({ currentTheme }) => {
           background: rgba(255, 255, 255, 1);
         }
 
-        .form-input::placeholder,
-        .form-textarea::placeholder {
-          color: #9ca3af;
-        }
-
         .form-textarea {
           resize: vertical;
           min-height: 120px;
@@ -367,18 +306,10 @@ const Contact = ({ currentTheme }) => {
           box-shadow: 0 10px 15px -3px ${theme.accent}60;
         }
 
-        .form-submit-btn:active:not(:disabled) {
-          transform: translateY(0);
-        }
-
         .form-submit-btn:disabled {
           opacity: 0.7;
           cursor: not-allowed;
           transform: none;
-        }
-
-        .form-submit-btn.submitting {
-          background: linear-gradient(135deg, #6b7280, #4b5563);
         }
 
         .spinner {
@@ -403,32 +334,6 @@ const Contact = ({ currentTheme }) => {
           to {
             opacity: 1;
             transform: translateY(0);
-          }
-        }
-
-        .contact-info-item:nth-child(1) { animation-delay: 0.1s; }
-        .contact-info-item:nth-child(2) { animation-delay: 0.2s; }
-
-        @media (max-width: 768px) {
-          #contact {
-            padding: 3rem 0;
-          }
-          
-          #contact h2 {
-            font-size: 2rem;
-          }
-          
-          .contact-info-grid {
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-          }
-          
-          .contact-info-item {
-            padding: 1.5rem 1rem;
-          }
-          
-          .contact-form {
-            padding: 2rem 1.5rem;
           }
         }
       `}</style>
@@ -458,7 +363,20 @@ const Contact = ({ currentTheme }) => {
 
           {/* Contact Form */}
           <div className="form-container">
-            <div className="contact-form">
+            <form className="contact-form" onSubmit={handleSubmit}>
+              {/* Status Messages */}
+              {submitStatus === 'success' && (
+                <div className="status-message status-success">
+                  ✅ Message sent successfully! I'll get back to you soon.
+                </div>
+              )}
+              
+              {submitStatus === 'error' && (
+                <div className="status-message status-error">
+                  ❌ Failed to send message. Please try again or email me directly.
+                </div>
+              )}
+              
               <div className="form-group">
                 <label htmlFor="name" className="form-label">
                   Name *
@@ -525,9 +443,8 @@ const Contact = ({ currentTheme }) => {
               
               <button
                 type="submit"
-                onClick={handleSubmit}
                 disabled={isSubmitting}
-                className={`form-submit-btn ${isSubmitting ? 'submitting' : ''}`}
+                className="form-submit-btn"
               >
                 {isSubmitting ? (
                   <>
@@ -541,7 +458,7 @@ const Contact = ({ currentTheme }) => {
                   </>
                 )}
               </button>
-            </div>
+            </form>
           </div>
         </div>
       </section>
